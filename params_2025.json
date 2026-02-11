@@ -1,0 +1,50 @@
+{
+  "ENERO": {
+    "factor": 3.4,
+    "priceWater": 7156.403568977351
+  },
+  "FEBRERO": {
+    "factor": 3.4,
+    "priceWater": 6900.022273055222
+  },
+  "MARZO": {
+    "factor": 3.4,
+    "priceWater": 7514.487670984942
+  },
+  "ABRIL": {
+    "factor": 3.4,
+    "priceWater": 7510.723888314375
+  },
+  "MAYO": {
+    "factor": 3.4,
+    "priceWater": 6993.107646567617
+  },
+  "JUNIO": {
+    "factor": 3.4,
+    "priceWater": 7165.213519268032
+  },
+  "JULIO": {
+    "factor": 3.4,
+    "priceWater": 7320.025991931667
+  },
+  "AGOSTO": {
+    "factor": 3.4,
+    "priceWater": 7007.963390315818
+  },
+  "SEPTIEMBRE": {
+    "factor": 3.4,
+    "priceWater": 7993.536433252246
+  },
+  "OCTUBRE": {
+    "factor": 3.4,
+    "priceWater": 7622.112768954952
+  },
+  "NOVIEMBRE": {
+    "factor": 3.4,
+    "priceWater": 7427.9375
+  },
+  "DICIEMBRE": {
+    "factor": 3.4,
+    "priceWater": 7334.894000408825
+  }
+}

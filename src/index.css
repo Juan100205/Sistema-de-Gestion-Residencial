@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "PT Serif", serif;
+  --font-roboto: "Roboto", sans-serif;
+
+  /* Color Palette */
+  --color-main-bg: #E1DDD9;
+  --color-sidebar-bg: #2A3746;
+  --color-accent: #C5AA8F;
+  --color-header-bg: #A5A29D;
+  --color-card-bg: #FFFFFF;
+  --color-text-primary: #1D1D1D;
+  --color-text-secondary: #4A4A4A;
+
+  /* Spacing & Radius */
+  --radius-standard: 12px;
+  --radius-large: 32px;
+
+  --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  /* Custom Spacing */
+  --spacing-200: 50rem;
+  /* 800px */
+}
+
+@layer base {
+
+  html,
+  body {
+    @apply bg-sidebar-bg text-text-primary font-roboto min-h-screen;
+  }
+
+  /* ---------------------------
+     ESTILOS DEL SCROLL (TAILWIND SAFE)
+     --------------------------- */
+  .scroll-container {
+    overflow: auto;
+    background: transparent;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+  }
+
+  .scroll-container::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    @apply rounded-full;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+@layer components {
+  .premium-card {
+    @apply bg-white rounded-xl shadow-premium transition-all duration-300 hover:scale-[1.02];
+  }
+
+  .page-container {
+    @apply bg-main-bg rounded-large p-10 m-5 flex-1 transition-all duration-300;
+    container-type: inline-size;
+  }
+
+  .section-gap {
+    @apply mb-12;
+  }
+}
