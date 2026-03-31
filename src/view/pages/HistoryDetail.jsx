@@ -10,6 +10,7 @@ import {
   CheckCircleIcon
 } from "@heroicons/react/24/outline";
 import { toast, ToastContainer } from "react-toastify";
+import Logo from '../../assets/Logo.png';
 
 export default function HistoryDetail() {
   const [searchParams] = useSearchParams();
@@ -134,7 +135,7 @@ export default function HistoryDetail() {
               </div>
             </div>
             <div className="flex flex-col items-end">
-              <img src="assets/Logo.png" alt="Logo" className="w-20 h-auto" />
+              <img src={Logo} alt="Logo" className="w-20 h-auto" />
               <span className="text-[8px] font-black text-white tracking-[0.3em] mt-1 uppercase">Edificio Calleja</span>
             </div>
           </div>

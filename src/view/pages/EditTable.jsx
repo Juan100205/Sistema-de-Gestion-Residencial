@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Logo from '../../assets/Logo.png';
 
 export default function EditTable() {
   const [menu, setMenu] = useState(false);
@@ -229,7 +230,7 @@ export default function EditTable() {
               )}
 
               <div className="flex flex-col items-end">
-                <img src="assets/Logo.png" alt="Logo" className="w-20 h-auto" />
+                <img src={Logo} alt="Logo" className="w-20 h-auto" />
                 <span className="text-[8px] font-black text-white tracking-[0.3em] mt-1 uppercase">Edificio Calleja</span>
               </div>
             </div>

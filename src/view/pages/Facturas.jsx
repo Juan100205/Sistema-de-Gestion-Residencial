@@ -3,6 +3,7 @@ import SideBar from "../Components/Global/Sidebar";
 import { UserCircleIcon, ArrowLeftIcon, DocumentTextIcon, HomeIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Logo from '../../assets/Logo.png';
 
 export default function Facturas() {
   const [menu, setMenu] = useState(false);
@@ -39,7 +40,7 @@ export default function Facturas() {
             </div>
 
             <div className="flex flex-col items-end">
-              <img src="assets/Logo.png" alt="Logo" className="w-20 h-auto" />
+              <img src={Logo} alt="Logo" className="w-20 h-auto" />
               <span className="text-[8px] font-black text-white tracking-[0.3em] mt-1 uppercase">Edificio Calleja</span>
             </div>
           </div>

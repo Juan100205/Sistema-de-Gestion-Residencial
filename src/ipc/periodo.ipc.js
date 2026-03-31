@@ -20,17 +20,17 @@ export function registerPeriodoIPC(ipcMain) {
 
     // AUTO-MIGRATION (Ensure Billing Columns/Table Exist)
     try {
-        db.exec("ALTER TABLE agua_consumo ADD COLUMN costo_calculado REAL DEFAULT 0");
+        db().exec("ALTER TABLE agua_consumo ADD COLUMN costo_calculado REAL DEFAULT 0");
         console.log("✅ IPC: Added costo_calculado to agua_consumo");
     } catch (e) { }
 
     try {
-        db.exec("ALTER TABLE gas_consumo ADD COLUMN costo_calculado REAL DEFAULT 0");
+        db().exec("ALTER TABLE gas_consumo ADD COLUMN costo_calculado REAL DEFAULT 0");
         console.log("✅ IPC: Added costo_calculado to gas_consumo");
     } catch (e) { }
 
     try {
-        db.prepare(`
+        db().prepare(`
           CREATE TABLE IF NOT EXISTS facturacion (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             apartamento_id INTEGER NOT NULL,
@@ -48,14 +48,16 @@ export function registerPeriodoIPC(ipcMain) {
         console.error("❌ IPC Migration Error:", e.message);
     }
 
-    const repo = PeriodoRepository(db);
-    const basureroRepo = BasureroRepository(db);
-    const callDataService = CallDataService(db);
-    const saveDataService = SaveDataService(db);
-    const updateExcelService = UpdateExcelService(db);
-    const envModService = EnvironmentDataModService(db);
-    const exportService = ExportDataService(db);
-    const homeService = HomeDataService(db);
+    const repo = PeriodoRepository(db());
+    const basureroRepo = BasureroRepository(db());
+    const callDataService = CallDataService(db());
+    const saveDataService = SaveDataService(db());
+    const updateExcelService = UpdateExcelService(db());
+    const envModService = EnvironmentDataModService(db());
+    const exportService = ExportDataService(db());
+    const homeService = HomeDataService(db());
+
+    // ... (rest of the file stays same, but wait, there are more db references)
 
     // Obtener todos los periodos
     handle("periodo:getAll", async () => {
@@ -272,10 +274,11 @@ export function registerPeriodoIPC(ipcMain) {
     handle("db:reset", async () => {
         console.log("🧨 IPC: Iniciando reset total de DB...");
         try {
+            const database = db();
             // Disable FKs OUTSIDE the transaction (necessary in SQLite)
-            db.pragma('foreign_keys = OFF');
+            database.pragma('foreign_keys = OFF');
 
-            db.transaction(() => {
+            database.transaction(() => {
                 // Table list in safe order (children first)
                 const tables = [
                     'facturacion',
@@ -292,8 +295,8 @@ export function registerPeriodoIPC(ipcMain) {
 
                 tables.forEach(table => {
                     try {
-                        db.prepare(`DELETE FROM ${table}`).run();
-                        db.prepare(`DELETE FROM sqlite_sequence WHERE name = ?`).run(table);
+                        database.prepare(`DELETE FROM ${table}`).run();
+                        database.prepare(`DELETE FROM sqlite_sequence WHERE name = ?`).run(table);
                         console.log(`  - Tabla ${table} vaciada.`);
                     } catch (e) {
                         console.warn(`  ⚠️ Al vaciar ${table}:`, e.message);
@@ -301,7 +304,7 @@ export function registerPeriodoIPC(ipcMain) {
                 });
 
                 console.log("🧨 IPC: Tablas vaciadas. Re-sembrando...");
-                seedInitialData(db);
+                seedInitialData(database);
                 console.log("✅ IPC: DB reseteada y re-sembrada.");
             })();
 
@@ -311,7 +314,7 @@ export function registerPeriodoIPC(ipcMain) {
             return { success: false, error: error.message };
         } finally {
             // ALWAYS re-enable FKs after the operation
-            db.pragma('foreign_keys = ON');
+            db().pragma('foreign_keys = ON');
         }
     });
 }

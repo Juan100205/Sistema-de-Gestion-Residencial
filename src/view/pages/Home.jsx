@@ -24,6 +24,7 @@ import SideBar from "../Components/Global/Sidebar";
 import TableHome from "../Components/Home/TableHome";
 import RendimientoHome from "../Components/Home/RendimientoHome";
 import AlertasHome from "../Components/Home/AlertasHome";
+import Logo from '../../assets/Logo.png';
 
 const monthNames = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -90,7 +91,7 @@ export default function Home() {
           </button>
 
           <div className="flex flex-col items-end">
-            <img src="assets/Logo.png" alt="Logo" className="w-15 h-auto" />
+            <img src={Logo} alt="Logo" className="w-15 h-auto" />
             <span className="text-[10px] font-black text-sidebar-bg tracking-[0.3em] mt-2 uppercase">Edificio Calleja Resort</span>
           </div>
         </div>

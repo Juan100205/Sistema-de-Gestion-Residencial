@@ -4,13 +4,20 @@
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": ".vite/build/main.js",
+  "config": {
+    "forge": "./forge.config.cjs"
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "db:seed": "electron scripts/master_seed_full.cjs"
+    "db:seed": "electron scripts/master_seed_full.cjs",
+    "web:server": "node server/index.js",
+    "web:dev": "concurrently \"npm run web:server\" \"vite --config vite.web.config.mjs\"",
+    "web:build": "vite build --config vite.web.config.mjs",
+    "web:preview": "npm run web:build && npm run web:server"
   },
   "keywords": [],
   "author": {
@@ -34,13 +41,17 @@
     "electron": "39.2.6",
     "vite": "^5.4.21"
   },
+  "type": "module",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.1.17",
     "@vitejs/plugin-react": "^5.1.2",
     "better-sqlite3": "^12.5.0",
     "chart.js": "^4.5.1",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.6",
     "electron-squirrel-startup": "^1.0.1",
+    "express": "^4.22.1",
     "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.7",
     "lucide-react": "^0.556.0",

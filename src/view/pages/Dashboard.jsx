@@ -29,6 +29,8 @@ ChartJS.register(
   Legend
 );
 
+import Logo from '../../assets/Logo.png';
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -277,7 +279,7 @@ export default function Dashboard() {
             </div>
 
             <div className="flex flex-col items-end">
-              <img src="assets/Logo.png" alt="Logo" className="w-24 h-auto" />
+              <img src={Logo} alt="Logo" className="w-24 h-auto" />
               <span className="text-[10px] font-black text-white tracking-[0.4em] mt-2 uppercase">Edificio Calleja</span>
             </div>
           </div>

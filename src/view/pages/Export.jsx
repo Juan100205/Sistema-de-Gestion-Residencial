@@ -14,6 +14,7 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import DashboardFilters from "../Components/Dashboard/DashboardFilters";
 import Button from "../Components/Global/Button";
+import Logo from '../../assets/Logo.png';
 
 export default function Export() {
   const [menu, setMenu] = useState(false);
@@ -304,7 +305,7 @@ export default function Export() {
               </div>
             </div>
             <div className="flex flex-col items-end">
-              <img src="assets/Logo.png" alt="Logo" className="w-24 h-auto" />
+              <img src={Logo} alt="Logo" className="w-24 h-auto" />
               <span className="text-[10px] font-black text-white tracking-[0.4em] mt-2 uppercase">Edificio Calleja</span>
             </div>
           </div>

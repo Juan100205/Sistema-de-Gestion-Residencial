@@ -4,32 +4,48 @@ import Database from 'better-sqlite3';
 import { app } from 'electron';
 import path from 'node:path';
 
-/**
- * Ruta segura para la DB en Electron
- * (no se borra al actualizar la app)
- */
-// Use project root DB for dev/verification consistency
-const isDev = !app.isPackaged;
-const dbPath = isDev
-  ? path.join(process.cwd(), 'calleja.db')
-  : path.join(app.getPath('userData'), 'calleja.db');
+let dbInstance = null;
 
 /**
- * Inicialización de SQLite
+ * Obtiene la ruta de la base de datos de manera segura
  */
-const db = new Database(dbPath, {
-  verbose: process.env.NODE_ENV === 'development'
-    ? console.log
-    : null
-});
+export function getDbPath() {
+  const isDev = !app.isPackaged;
+  return isDev
+    ? path.join(process.cwd(), 'calleja.db')
+    : path.join(app.getPath('userData'), 'calleja.db');
+}
 
 /**
- * Configuración recomendada
+ * Inicialización perezosa de la base de datos
  */
-db.pragma('journal_mode = WAL');   // mejor concurrencia
-db.pragma('foreign_keys = ON');    // claves foráneas
-db.pragma('synchronous = NORMAL'); // balance seguridad/performance
+function getDatabase() {
+  if (!dbInstance) {
+    const dbPath = getDbPath();
+    console.log(`[DB] Opening database at: ${dbPath}`);
+    console.log(`[DB] Database constructor type: ${typeof Database}`);
+    try {
+      dbInstance = new Database(dbPath, {
+        verbose: process.env.NODE_ENV === 'development'
+          ? console.log
+          : null
+      });
 
+      /**
+       * Configuración recomendada
+       */
+      dbInstance.pragma('journal_mode = WAL');   // mejor concurrencia
+      dbInstance.pragma('foreign_keys = ON');    // claves foráneas
+      dbInstance.pragma('synchronous = NORMAL'); // balance seguridad/performance
+      console.log(`[DB] Database instance created successfully. keys: ${Object.keys(dbInstance).join(',')}`);
+      console.log(`[DB] Has transaction method? ${typeof dbInstance.transaction}`);
+    } catch (e) {
+      console.error('[DB] Failed to create database instance:', e);
+      throw e;
+    }
+  }
+  return dbInstance;
+}
 
-export { dbPath };
-export default db;
+export { getDatabase as db, getDbPath as dbPath };
+export default getDatabase;

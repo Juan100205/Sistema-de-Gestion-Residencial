@@ -53,12 +53,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        // setupIcon requires an .ico file. Since we only have a .png, 
-        // we'll leave this commented out or point to a placeholder if available.
-        // If you have a .ico, uncomment and point to it:
-        // setupIcon: './assets/Logo.ico',
-        iconUrl: 'https://raw.githubusercontent.com/Juan100205/Sistema-de-Gestion-Residencial/main/assets/Logo.ico', // Placeholder if you have a URL
-        // loadingGif: './assets/loading.gif',
+        iconUrl: 'https://raw.githubusercontent.com/Juan100205/Sistema-de-Gestion-Residencial/main/assets/Logo.ico',
       },
     },
     {
@@ -79,11 +74,8 @@ module.exports = {
     {
       name: '@electron-forge/plugin-vite',
       config: {
-        // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
-        // If you are familiar with Vite configuration, it will look really familiar.
         build: [
           {
-            // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
             entry: 'src/main.js',
             config: 'vite.main.config.mjs',
             target: 'main',
@@ -102,8 +94,6 @@ module.exports = {
         ],
       },
     },
-    // Fuses are used to enable/disable various Electron functionality
-    // at package time, before code signing the application
     new FusesPlugin({
       version: FuseVersion.V1,
       [FuseV1Options.RunAsNode]: false,
@@ -115,5 +105,3 @@ module.exports = {
     }),
   ],
 };
-
-

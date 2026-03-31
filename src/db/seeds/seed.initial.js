@@ -1,101 +1,60 @@
-import TorresRepository from '../repositories/torres.repo.js';
-import ApartamentosRepository from '../repositories/apartamentos.repo.js';
+import snapshot from './data/snapshot.json' with { type: 'json' };
 
 export function seedInitialData(db) {
-  const torresRepo = TorresRepository(db);
-  const aptoRepo = ApartamentosRepository(db);
-
-  // Verificar si ya hay datos
+  // Check if DB is empty (check torres) or use a "seeded" flag table if needed.
+  // We check 'torres' count.
   const count = db.prepare(`SELECT COUNT(*) c FROM torres`).get().c;
   if (count > 0) return;
 
+  console.log('🌱 Loading Initial Seed from Snapshot (Dev Data)...');
+
   const runSeed = db.transaction(() => {
-    console.log('🌱 Iniciando seed inicial...');
-
-    // 1. Crear torres
-    const torres = ['TORRE A', 'TORRE B', 'TORRE C'];
-    const torreIds = {};
-    torres.forEach(t => {
-      torreIds[t] = db.prepare(`INSERT INTO torres (nombre) VALUES (?)`).run(t).lastInsertRowid;
-    });
-
-    // 2. Crear apartamentos Torre A (Específicos)
-    const aptosTorreA = {
-      2: [1, 2, 3],
-      3: [1, 2],
-      4: [1, 2, 3, 4],
-      5: [1, 2, 3, 4],
-      6: [1, 2, 3],
-      7: [1, 2],
-      8: [1, 2, 3],
-      9: [1, 2],
-      10: [1, 2, 3, 4],
-      11: [1, 2, 3, 4],
-      12: [1, 2, 3, 4],
-      13: [1, 2]
-    };
-    const aptosTorreB = {
-      2: [1, 2, 3],
-      3: [1, 2],
-      4: [1, 2, 3, 4],
-      5: [1, 2, 3, 4],
-      6: [1, 2, 3],
-      7: [1, 2],
-      8: [1, 2, 3],
-      9: [1, 2],
-      10: [1, 2, 3, 4],
-      11: [1, 2, 3, 4],
-      12: [1, 2, 3, 4],
-      13: [1, 2]
-    };
-    const aptosTorreC = {
-      2: [1, 2, 3],
-      3: [1, 2],
-      4: [1, 2, 3, 4],
-      5: [1, 2, 3, 4],
-      6: [1, 2, 3],
-      7: [1, 2],
-      8: [1, 2, 3],
-      9: [1, 2],
-      10: [1, 2, 3, 4],
-      11: [1, 2, 3, 4],
-      12: [1, 2, 3, 4],
-      13: [1, 2]
-    };
-
-
-
-    for (const [piso, numeros] of Object.entries(aptosTorreA)) {
-      for (const num of numeros) {
-        const numeroApto = parseInt(`${piso}${num.toString().padStart(2, '0')}`);
-        db.prepare(`
-          INSERT INTO apartamentos (torre_id, numero, activo, coeficiente)
-          VALUES (?, ?, 1, 1.0)
-        `).run(torreIds['Torre A'], numeroApto);
-      }
+    // 1. Torres
+    if (snapshot.torres && snapshot.torres.length > 0) {
+      const keys = Object.keys(snapshot.torres[0]);
+      const cols = keys.join(', ');
+      const vals = keys.map(k => '@' + k).join(', ');
+      const stmt = db.prepare(`INSERT INTO torres (${cols}) VALUES (${vals})`);
+      snapshot.torres.forEach(row => stmt.run(row));
     }
 
-    for (const [piso, numeros] of Object.entries(aptosTorreB)) {
-      for (const num of numeros) {
-        const numeroApto = parseInt(`${piso}${num.toString().padStart(2, '0')}`);
-        db.prepare(`
-          INSERT INTO apartamentos (torre_id, numero, activo, coeficiente)
-          VALUES (?, ?, 1, 1.0)
-        `).run(torreIds['Torre B'], numeroApto);
-      }
+    // 2. Apartamentos
+    if (snapshot.apartamentos && snapshot.apartamentos.length > 0) {
+      const keys = Object.keys(snapshot.apartamentos[0]);
+      const cols = keys.join(', ');
+      const vals = keys.map(k => '@' + k).join(', ');
+      const stmt = db.prepare(`INSERT INTO apartamentos (${cols}) VALUES (${vals})`);
+      snapshot.apartamentos.forEach(row => stmt.run(row));
     }
 
-    for (const [piso, numeros] of Object.entries(aptosTorreC)) {
-      for (const num of numeros) {
-        const numeroApto = parseInt(`${piso}${num.toString().padStart(2, '0')}`);
-        db.prepare(`
-          INSERT INTO apartamentos (torre_id, numero, activo, coeficiente)
-          VALUES (?, ?, 1, 1.0)
-        `).run(torreIds['Torre C'], numeroApto);
-      }
+    // 3. Periodo
+    if (snapshot.periodo && snapshot.periodo.length > 0) {
+      const keys = Object.keys(snapshot.periodo[0]);
+      const cols = keys.join(', ');
+      const vals = keys.map(k => '@' + k).join(', ');
+      const stmt = db.prepare(`INSERT INTO periodo (${cols}) VALUES (${vals})`);
+      snapshot.periodo.forEach(row => stmt.run(row));
     }
 
-    console.log('✅ Seed inicial completado');
+    // 4. Agua Consumo
+    if (snapshot.agua_consumo && snapshot.agua_consumo.length > 0) {
+      const keys = Object.keys(snapshot.agua_consumo[0]);
+      const cols = keys.join(', ');
+      const vals = keys.map(k => '@' + k).join(', ');
+      const stmt = db.prepare(`INSERT INTO agua_consumo (${cols}) VALUES (${vals})`);
+      snapshot.agua_consumo.forEach(row => stmt.run(row));
+    }
+
+    // 5. Gas Consumo
+    if (snapshot.gas_consumo && snapshot.gas_consumo.length > 0) {
+      const keys = Object.keys(snapshot.gas_consumo[0]);
+      const cols = keys.join(', ');
+      const vals = keys.map(k => '@' + k).join(', ');
+      const stmt = db.prepare(`INSERT INTO gas_consumo (${cols}) VALUES (${vals})`);
+      snapshot.gas_consumo.forEach(row => stmt.run(row));
+    }
+
+    console.log('✅ Snapshot restored successfully.');
   });
 
   runSeed();

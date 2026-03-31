@@ -18,6 +18,7 @@ import { toast, ToastContainer } from "react-toastify";
 import InfoCard from "../Components/EnvVar/InfoCard";
 import InputCard from "../Components/EnvVar/InputCard";
 import Button from "../Components/Global/Button";
+import Logo from '../../assets/Logo.png';
 
 export default function EnvVar() {
   const navigate = useNavigate();
@@ -350,7 +351,7 @@ export default function EnvVar() {
             </div>
 
             <div className="flex flex-col items-end">
-              <img src="assets/Logo.png" alt="Logo" className="w-20 h-auto" />
+              <img src={Logo} alt="Logo" className="w-20 h-auto" />
               <span className="text-[8px] font-black text-white tracking-[0.3em] mt-1 uppercase">Edificio Calleja</span>
             </div>
           </div>

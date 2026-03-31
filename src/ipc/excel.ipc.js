@@ -8,7 +8,8 @@ export function registerExcelIPC(ipcMain) {
     ipcMain.handle(channel, listener);
   };
 
-  const importService = ImportExcelService(db);
+  // Fix: db is a getter function, we need the instance
+  const importService = ImportExcelService(db());
 
   handle("excel:save", async (_, rows) => {
     console.log('🔵 IPC excel:save recibido, filas:', rows?.length);

@@ -7,7 +7,7 @@ export function registerAuditIPC(ipcMain) {
         ipcMain.handle(channel, listener);
     };
 
-    const repo = AuditLogRepository(db);
+    const repo = AuditLogRepository(db());
 
     handle("audit:getAll", async () => {
         try {

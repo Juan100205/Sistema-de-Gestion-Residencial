@@ -14,6 +14,7 @@ import {
     Bars3Icon
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import Logo from '../../assets/Logo.png';
 
 export default function AuditLog() {
     const [menu, setMenu] = useState(false);
@@ -109,7 +110,7 @@ export default function AuditLog() {
                             </div>
                         </div>
                         <div className="flex flex-col items-end">
-                            <img src="assets/Logo.png" alt="Logo" className="w-24 h-auto" />
+                            <img src={Logo} alt="Logo" className="w-24 h-auto" />
                             <span className="text-[10px] font-black text-white tracking-[0.4em] mt-2 uppercase">Edificio Calleja</span>
                         </div>
                     </div>
